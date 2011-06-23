@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
-  <includeClasses/>
+<flexLibProperties includeAllClasses="false" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="com.acm.ComboCheck"/>
+    <classEntry path="com.acm.ComboCheckItemRenderer"/>
+    <classEntry path="com.acm.DropController"/>
+    <classEntry path="com.custom.CustomComboBox"/>
+    <classEntry path="skins.CustomComboBoxSkin"/>
+  </includeClasses>
   <includeResources/>
   <namespaceManifests/>
 </flexLibProperties>

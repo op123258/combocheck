@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   creationComplete="onCreationComplete()"
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:acm="com.acm.*" viewSourceURL="srcview/index.html">
+	
+	<fx:Declarations>
+		<s:HTTPService id="requestItems"
+					   url="http://carballares.es/arcadio/wp-content/uploads/2010/08/ComboCheck_1_3_0/data.xml"
+					   method="GET" result="onResult(event)" resultFormat="object" useProxy="false"/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.CollectionEvent;
+			import mx.rpc.events.ResultEvent;
+			[Bindable]
+			private var items1:ArrayCollection = new ArrayCollection ([
+				{label:'Select All', value:'all'},
+				{label:'label 0', value:0},
+				{label:'label 1', value:1, assigned:true},
+				{label:'label 2', value:2},
+				{label:'label 3', value:3},
+				{label:'label 4', value:4},
+				{label:'label 5', value:5},
+				{label:'label 6', value:6},
+				{label:'label 7', value:7},
+				{label:'label 8', value:8},
+				{label:'label 9', value:9},
+				{label:'label 10', value:10},
+				{label:'label 11', value:11},
+				{label:'label 12', value:12},
+				{label:'label 13', value:13},
+				{label:'label 14', value:14, assigned:true}
+			]);
+			
+			[Bindable]
+			private var items2:ArrayCollection; 
+			
+			private function onCreationComplete():void {
+				showSelectedItems1();
+				requestItems.send();
+			}
+			
+			private function onResult(event:ResultEvent):void {
+				var aux:ArrayCollection = new ArrayCollection();
+				aux=requestItems.lastResult.items.item;
+				
+				items2 = new ArrayCollection();
+				for (var val:String in aux) {
+					var obj:Object = new Object();
+					obj.label = aux[val].label;
+					obj.value = aux[val].value;
+					items2.addItem(obj); 
+				}
+				combo2.dataProvider=items2;
+				showSelectedItems2();
+			}
+			
+			private function showSelectedItems1():void {
+				result1.text="";
+				for each (var item:Object in combo1.selectedItems) {
+					result1.text += item.label +" ";
+				}
+			}
+			
+			private function onAddItem1 (event:Event):void {
+				showSelectedItems1();
+			}
+			
+			private function onRemoveItem1 (event:Event):void {
+				showSelectedItems1();
+			}
+			
+			private function showSelectedItems2():void {
+				result2.text="";
+				for each (var item:Object in combo2.selectedItems) {
+					result2.text += item.label +" ";
+				}
+			}
+			
+			private function onAddItem2 (event:Event):void {
+				showSelectedItems2();
+			}
+			
+			private function onRemoveItem2 (event:Event):void {
+				showSelectedItems2();
+			}
+			
+			private function selectAll (items:ArrayCollection, value:Boolean):void {
+				for each (var item:Object in items) {
+					item.assigned = value;
+				}
+				
+				if (items == items1) {
+					combo1.executeBindings();
+					showSelectedItems1();
+				} else {
+					combo2.executeBindings();
+					showSelectedItems2();
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<s:Panel title="ComboCheck 1.3" width="100%" height="100%">
+		<s:layout>
+			<s:HorizontalLayout paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10"/>
+		</s:layout>
+		
+		<s:VGroup width="100%" height="100%">
+			<s:Label text="Local data" fontWeight="bold"/>
+			<acm:ComboCheck width="100%"
+							id="combo1" dataProvider="{items1}" 
+							removeItem="onRemoveItem1(event)"
+							addItem="onAddItem1(event)"/>
+			
+			<s:HGroup>
+				<s:Button label="Select All" click="selectAll(items1, true)"/>
+				<s:Button label="Deselect All" click="selectAll(items1, false)"/>
+			</s:HGroup>
+			
+			<s:Rect height="10"/>
+			<s:Label text="Selected Items" fontWeight="bold"/>
+			<s:RichText id="result1" width="200" height="100%"/>
+		</s:VGroup>
+		
+		<s:VGroup width="100%" height="100%">
+			<s:Label text="Remote data" fontWeight="bold"/>
+			<acm:ComboCheck width="100%"
+							itemAllValue="-1"
+							id="combo2" dataProvider="{items2}" 
+							removeItem="onRemoveItem2(event)"
+							addItem="onAddItem2(event)"
+							labelFieldMultiple="Too much items"
+							prompt="Select me, please!"/>
+			
+			<s:HGroup>
+				<s:Button label="Select All" click="selectAll(items2, true)"/>
+				<s:Button label="Deselect All" click="selectAll(items2, false)"/>
+			</s:HGroup>
+			
+			<s:Rect height="10"/>
+			<s:Label text="Selected Items" fontWeight="bold"/>
+			<s:RichText id="result2" width="200" height="100%"/>
+		</s:VGroup>
+	</s:Panel>
+</s:Application>

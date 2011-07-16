@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flexLibProperties version="1">
+<includeClasses>
+<classEntry path="com.arcadiocarballares.ComboCheckEvent"/>
+<classEntry path="com.arcadiocarballares.ComboCheckItemRenderer"/>
+<classEntry path="com.arcadiocarballares.ComboCheck"/>
+<classEntry path="com.arcadiocarballares.ComboCheckDropDownFactory"/>
+</includeClasses>
+<includeResources/>
+<namespaceManifests/>
+</flexLibProperties>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>Source of ComboCheckTest</title>
+	<nodes>
+		<node label="[source path] src" icon="classpathIcon" expanded="true">
+			<node label="com.arcadiocarballares" icon="packageIcon" expanded="true">
+				<node label="ComboCheck.as" icon="actionScriptIcon" url="source//ComboCheck/src/com/arcadiocarballares/ComboCheck.as.html"/>
+				<node label="ComboCheckDropDownFactory.as" icon="actionScriptIcon" url="source//ComboCheck/src/com/arcadiocarballares/ComboCheckDropDownFactory.as.html"/>
+				<node label="ComboCheckEvent.as" icon="actionScriptIcon" url="source//ComboCheck/src/com/arcadiocarballares/ComboCheckEvent.as.html"/>
+				<node label="ComboCheckItemRenderer.as" icon="actionScriptIcon" url="source//ComboCheck/src/com/arcadiocarballares/ComboCheckItemRenderer.as.html"/>
+			</node>
+		</node>
+		<node label="src" icon="classpathIcon" expanded="true">
+			<node selected="true" label="Main.mxml" icon="mxmlAppIcon" url="source/Main.mxml.html"/>
+		</node>
+	</nodes>
+</index>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+	creationComplete="onCreationComplete()" xmlns:arcadiocarballares="com.arcadiocarballares.*" viewSourceURL="srcview/index.html">
+
+    <mx:Script>
+        <![CDATA[
+        	import mx.collections.ArrayCollection;
+        	import mx.collections.XMLListCollection;
+        	import mx.controls.Alert;
+        	import mx.controls.ComboBox;
+        	import mx.events.CollectionEvent;
+        	import mx.events.DropdownEvent;
+        	import mx.rpc.events.ResultEvent;
+            
+            [Bindable]
+            private var items1:ArrayCollection=new ArrayCollection([
+            	{label:'Select All', value:-1},
+				{label:'label 0', value:0, tooltip:'ComboCheck tooltip!'},
+				{label:'label 1', value:1, assigned:true},
+            	{label:'label 2', value:2},
+            	{label:'label 3', value:3},
+				{label:'label 4', value:4},
+            	{label:'label 5', value:5},
+            	{label:'label 6', value:6},
+            	{label:'label 7', value:7},
+            	{label:'label 8', value:8},
+            	{label:'label 9', value:9},
+            	{label:'label 10', value:10},
+            	{label:'label 11', value:11},
+            	{label:'label 12', value:12},
+            	{label:'label 13', value:13},
+            	{label:'label 14', value:14}
+            ]);
+            
+            [Bindable]
+            private var items2:ArrayCollection=new ArrayCollection();
+            
+			[Bindable]
+			private var myText:String='';
+
+			private function onCreationComplete():void {
+            	myCombo1.selectedIndex=-1;
+            	requestItems.send();
+            }
+            
+            private function onAddItem ():void {
+            	myText='';
+            	var items1:ArrayCollection=myCombo1.selectedItems;
+            	for (var i:String in items1) {
+            		myText+=items1[i].label+' ';
+            	}
+            }
+            
+			private function selectAll1(sel:Boolean):void {
+				for each (var item:Object in items1) {
+					item.assigned = sel;
+				}
+				myCombo1.invalidateProperties();
+			} 
+			
+			private function selectAll2(sel:Boolean):void {
+				for each (var item:Object in items2) {
+					item.assigned = sel;
+				}
+				myCombo2.invalidateProperties();
+			} 
+			
+			private function onResult(event:ResultEvent):void {
+				var aux:ArrayCollection = new ArrayCollection();
+				aux=requestItems.lastResult.items.item;
+				
+				for (var val:String in aux) {
+					var obj:Object = new Object();
+					obj.label = aux[val].label;
+					obj.value = aux[val].value;
+					items2.addItem(obj); 
+				}
+				myCombo2.dataProvider=items2;
+				myCombo2.selectedIndex=-1;
+			}
+        ]]>
+    </mx:Script>
+    
+    <mx:HTTPService id="requestItems" url="http://carballares.es/arcadio/wp-content/uploads/2010/04/ComboCheck_1_2/data.xml" 
+    	method="GET" result="onResult(event)" resultFormat="object" useProxy="false"/>
+    
+    <mx:Panel title="ComboCheck" height="100%" width="100%" minHeight="250">
+	    <mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle"
+	    	paddingBottom="5" paddingLeft="5" paddingRight="5" paddingTop="5">
+	    	<mx:HBox>
+		    	<mx:VBox width="100%" verticalGap="-1">
+		    		<mx:Label text="Remote data" fontWeight="bold"/>
+			    	<arcadiocarballares:ComboCheck id="myCombo2" dataProvider="{items2}" labelField="label" width="100"
+					   itemAllValue="-1" selectAll="selectAll2(true)" deSelectAll="selectAll2(false)"/>
+		    	</mx:VBox> 
+				
+		    	<mx:VBox width="100%" verticalGap="-1">
+		    		<mx:Label text="Variable data:" fontWeight="bold"/>
+			    	<arcadiocarballares:ComboCheck id="myCombo1" dataProvider="{items1}" labelField="label" width="100" 
+						itemAllValue="-1"
+		    			addItem="onAddItem()" itemsCreated="onAddItem()" selectAll="selectAll1(true)" deSelectAll="selectAll1(false)"/>
+		    	</mx:VBox>
+	    	</mx:HBox>
+	    	
+	    	<mx:VBox width="100%" verticalGap="-1">
+	    		<mx:Label text="SelectedItem:" fontWeight="bold"/>
+		    	<mx:Text text="{myCombo1.selectedItem.label}"/>
+	    	</mx:VBox>
+	    	<mx:VBox width="100%" verticalGap="-1">
+	    		<mx:Label text="SelectedItem(S):" fontWeight="bold"/>
+		    	<mx:Text text="{myText}" width="100%"/>
+	    	</mx:VBox>
+	    	
+	    	<mx:Spacer height="100%"/>
+	    	<mx:HBox width="100%" horizontalAlign="center">
+		    	<mx:Button click="selectAll1(true)" label="Select All"/>
+		    	<mx:Button click="selectAll1(false)" label="Deselect All"/>
+	    	</mx:HBox>
+			
+		</mx:VBox>
+    </mx:Panel>
+</mx:Application>

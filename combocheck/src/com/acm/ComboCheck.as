@@ -1,14 +1,12 @@
 /*
- * ComboCheck
- * v1.4.1
- * Arcadio Carballares Martín, 2010
- * Göran Karlsson, 2010
- * http://www.carballares.es/arcadio
- * Creative Commons - http://creativecommons.org/licenses/by-sa/2.5/es/deed.en_GB
- */
-package com.acm {
-	import com.custom.CustomComboBox;
-	
+* ComboCheck
+* v1.5
+* Arcadio Carballares Martín, 2011
+* http://www.arcadiocarballares.es
+* Creative Commons - http://creativecommons.org/licenses/by-sa/2.5/es/deed.en_GB
+*/
+package com.acm
+{
 	import flash.events.Event;
 	import flash.events.FocusEvent;
 	import flash.events.KeyboardEvent;
@@ -16,58 +14,35 @@ package com.acm {
 	import flash.ui.Keyboard;
 	
 	import mx.collections.IList;
-	import mx.core.ClassFactory;
+	import mx.controls.CheckBox;
+	import mx.controls.TextInput;
+	import mx.core.mx_internal;
+	import mx.events.CollectionEvent;
 	import mx.events.ItemClickEvent;
 	
-	import spark.components.CheckBox;
 	import spark.components.ComboBox;
+	import spark.components.DataGroup;
 	import spark.events.DropDownEvent;
+	
+	use namespace mx_internal;
+	
 	
 	[Event("addItem", type="flash.events.Event")]
 	[Event("removeItem", type="flash.events.Event")]
 	
-	public class ComboCheck extends CustomComboBox {
-		private var m_labelField:String = "label";
-		private var m_selectedItems:Vector.<Object>;
+	public class ComboCheck extends ComboBox
+	{
 		
-		public function ComboCheck() {
+		private var _selectedItems:Vector.<Object>;
+		
+		public function ComboCheck()
+		{
 			super();
-			
-			var render:ClassFactory = new ClassFactory(ComboCheckItemRenderer);
-			super.itemRenderer = render;
-			
-			super.dropDownController = new DropController;
-			
-//			addEventListener(DropDownEvent.OPEN, onDropDownOpen);
-			addEventListener(DropDownEvent.CLOSE, onDropDownClose);
-			addEventListener(FocusEvent.FOCUS_IN, onFocusIn);
-			addEventListener(FocusEvent.FOCUS_OUT, onFocusOut);
+			setStyle("skinClass", ComboCheckSkin);
 			addEventListener(ItemClickEvent.ITEM_CLICK, onItemClick);
-			addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown_EventHandler);
 		}
 		
-		[Bindable("change")]
-		[Bindable("valueCommit")]
-		[Bindable("collectionChange")]
-		override public function set selectedItems(value:Vector.<Object>):void {
-			m_selectedItems = value;
-			
-			for each (var obj:Object in value) {
-				getItem(obj.label).assigned = true;
-			}
-		}
 		
-		override public function get selectedItems():Vector.<Object> {
-			return m_selectedItems;
-		}
-		
-		override public function set labelField(value:String):void {
-			m_labelField = value;
-		}
-		
-		override public function get labelField():String {
-			return m_labelField;
-		}
 		
 		override public function set dataProvider(value:IList):void {
 			super.dataProvider = value;
@@ -75,136 +50,71 @@ package com.acm {
 			// Load initial selected items
 			selectedItems = new Vector.<Object>;
 			
-			for (var i:int; i < dataProvider.length; i++) {
-				if (dataProvider[i].assigned == true) {
-					selectedItems.push(dataProvider[i]);
+			for each (var item:Object in dataProvider) {
+				if (item.selected) {
+					selectedItems.push(item);
 				}
 			}
 		}
 		
-		protected function onKeyDown_EventHandler(event:KeyboardEvent):void {
-			if (event.keyCode == Keyboard.ENTER && isDropDownOpen && textInput.text.length > 0) {
+		[Bindable("change")]
+		[Bindable("valueCommit")]
+		[Bindable("collectionChange")]
+		override public function set selectedItems(value:Vector.<Object>):void {
+			_selectedItems = value;
+		}
+		
+		override public function get selectedItems():Vector.<Object> {
+			return _selectedItems;
+		}
+		
+		override protected function keyDownHandler(event:KeyboardEvent):void {
+			super.keyDownHandler(event);
+			if (event.keyCode == Keyboard.ENTER && isDropDownOpen) {
+				
 				var currentItem:Object = getItem(textInput.text);
 				
 				if (currentItem != null) {
-					currentItem.assigned = !currentItem.assigned;
-					onCheck(currentItem);
-					invalidateProperties();
-				}
-			}
-//			// This Adobe bug is fixed in CustomComboBox (which we extend).
-//			if (event.keyCode == Keyboard.ESCAPE && isDropDownOpen && textInput.text.length > 0) {
-//				textInput.text = "";
-//			}
-		}
-		
-		protected function onItemClick(event:ItemClickEvent):void {
-			onCheck(event.item);
-		}
-		
-		protected function onDropDownClose(event:DropDownEvent):void {
-			selectedIndex = -1;
-			openButton.setFocus();
-			selections(false);
-		}
-		
-//		// This doesn't work. The idea was to clear the textInput every
-//		// time we open the dropDown. But it also come with a lot of
-//		// other side effects. For now it works pretty ok without this.
-//		protected function onDropDownOpen(event:DropDownEvent):void {
-//			selections();
-//		}
-		
-		protected function textInput_ClickHandler(event:MouseEvent):void {
-			selections(false);
-			textInput.setFocus();
-		}
-		
-		protected function onFocusIn(event:FocusEvent):void {
-			selections();
-		}
-		
-		protected function onFocusOut(event:FocusEvent):void {
-			selections(false);
-		}
-		
-		override protected function item_mouseDownHandler(event:MouseEvent):void {
-			if (event.target is ComboCheckItemRenderer) {
-				var render:ComboCheckItemRenderer = event.target as ComboCheckItemRenderer;
-				var check:CheckBox = render.item as CheckBox;
-				
-				if (check.selected) {
-					render.data.assigned = false;
-					check.selected = false;
-				}
-				else {
-					render.data.assigned = true;
-					check.selected = true;
+					currentItem.selected = !currentItem.selected;
+					var e:ItemClickEvent = new ItemClickEvent(ItemClickEvent.ITEM_CLICK, true);
+					e.item = currentItem;
+					dispatchEvent(e);
+					
+					// Update items
+					dataGroup.dataProvider.itemUpdated(currentItem,null,currentItem,e.item);
 				}
 				
-				onCheck(render.data);
 			}
+			trace(selectedItem);
 		}
 		
-		override protected function commitProperties():void {
-			super.commitProperties();
-			
-			var render:ClassFactory = new ClassFactory(ComboCheckItemRenderer);
-			super.itemRenderer = render;
-		}
-		
-		public function clearSelections():void {
-			if (selectedItems.length > 0)
-				selectedItems.splice(0, selectedItems.length);
-			
-			for each (var obj:Object in dataProvider) {
-				obj.assigned = false;
+		override protected function capture_keyDownHandler(event:KeyboardEvent):void {
+			if (event.keyCode == Keyboard.ENTER) {
+				return;
 			}
-			
-			selectedIndex = -1;
-			
-			selections();
+			super.capture_keyDownHandler(event);
 		}
 		
 		private function getItem(text:String):Object {
 			for each (var item:Object in dataProvider) {
-				if (item.label == text)
+				if (item[labelField] == text)
 					return item;
 			}
 			
 			return null;
 		}
 		
-		private function selections(reset:Boolean = true):void {
-			var obj:Object;
-			
-			textInput.text = "";
-			
-			if (!reset) {
-				for each (obj in selectedItems) {
-					textInput.text += obj.label + ", ";
-				}
-				
-				textInput.text = textInput.text.substr(0, textInput.text.length - 2);
-			}
-			
-			toolTip = textInput.text;
+		override protected function item_mouseDownHandler(event:MouseEvent):void {
+			trace (event);
 		}
 		
-		private function onCheck(obj:Object):void {
-			trace("check");
-			
-			if (selectedItems == null || selectedItems.indexOf(obj) == -1) {
-				if (selectedItems == null) {
-					selectedItems = new Vector.<Object>();
-				}
-				selectedItems.push(obj);
-				
+		private function onItemClick(event:ItemClickEvent):void {
+			trace("item checked!");
+			if (event.item.selected)  {
+				selectedItems.push(event.item);
 				dispatchEvent(new Event("addItem"));
-			}
-			else {
-				var index:int = selectedItems.indexOf(obj);
-				
+			} else {
+				var index:int = selectedItems.indexOf(event.item);
 				selectedItems.splice(index, 1);
 				dispatchEvent(new Event("removeItem"));
 			}

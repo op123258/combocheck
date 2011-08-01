@@ -112,7 +112,7 @@
 		
 		<s:VGroup width="100%" height="100%">
 			<s:Label text="Local data" fontWeight="bold"/>
-			<acm:ComboCheck width="100%"
+			<acm:ComboCheck width="100%" labelField="label"
 							id="combo1" dataProvider="{items1}" 
 							removeItem="onRemoveItem1(event)"
 							addItem="onAddItem1(event)"/>
@@ -124,7 +124,9 @@
 			
 			<s:Rect height="10"/>
 			<s:Label text="Selected Items" fontWeight="bold"/>
-			<s:RichText id="result1" width="200" height="100%"/>
+			<s:RichText id="result1" width="200"/>
+			<s:Label text="Selected Item" fontWeight="bold"/>
+			<s:RichText text="{combo1.selectedItem.label}"/>
 		</s:VGroup>
 		
 		<s:VGroup width="100%" height="100%">
@@ -141,7 +143,9 @@
 			
 			<s:Rect height="10"/>
 			<s:Label text="Selected Items" fontWeight="bold"/>
-			<s:RichText id="result2" width="200" height="100%"/>
+			<s:RichText id="result2" width="200"/>
+			<s:Label text="Selected Item" fontWeight="bold"/>
+			<s:RichText text="{combo2.selectedItem.label}"/>
 		</s:VGroup>
 	</s:Panel>
 </s:Application>

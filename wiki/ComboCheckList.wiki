@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Full list of component operative versions.
 
 = Introduction =
 Combocheck is an extended flex ComboBox with flex Checkbox as itemrenderer with fully flex functionality.

@@ -2,7 +2,7 @@
 
 = Introduction =
 
-http://code.google.com/p/combocheck/source/browse/tags/combocheck-1.1/combocheck-test/bin-release/Main.html
+http://code.google.com/p/combocheck/source/browse/tags/combocheck-1.1/combocheck-test/bin-release/Main.swf
 
 
 = Details =

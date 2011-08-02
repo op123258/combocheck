@@ -1,9 +1,12 @@
 #summary One-sentence summary of this page.
 
 = Introduction =
+Combocheck is an extended flex ComboBox with flex Checkbox as itemrenderer with fully flex functionality.
 
+= Current version =
+Current version is 1.5. This version modify source code to adapt it to more flexibily component architecture of flex 4.
 
-= Versiones anteriores =
+= Previous versions =
 
 == Version 1.4.1 ==
 

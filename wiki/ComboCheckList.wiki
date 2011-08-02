@@ -2,6 +2,7 @@
 
 = Introduction =
 
+<iframe source="http://combocheck.googlecode.com/svn/tags/combocheck-1.1/combocheck-test/bin-release/Main.html"></iframe>
 http://code.google.com/p/combocheck/source/browse/tags/combocheck-1.1/combocheck-test/bin-release/Main.swf
 
 

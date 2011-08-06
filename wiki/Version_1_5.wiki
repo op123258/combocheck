@@ -12,4 +12,4 @@ Add your content here.  Format your content with:
   * Headings, paragraphs, and lists
   * Automatic links to other wiki pages
 
-<iframe src="http://combocheck.googlecode.com/svn/trunk/combocheck-test/bin-release/Main.html"></iframe>
+<wiki:video src="http://combocheck.googlecode.com/svn/trunk/combocheck-test/bin-release/Main.swf">

@@ -1,6 +1,6 @@
 /*
 * ComboCheck
-* v1.5
+* v1.5.01
 * Arcadio Carballares Martín, 2011
 * http://www.arcadiocarballares.es
 * Creative Commons - http://creativecommons.org/licenses/by-sa/2.5/es/deed.en_GB
@@ -26,9 +26,8 @@ package com.acm
 	
 	use namespace mx_internal;
 	
-	
-	[Event("addItem", type="flash.events.Event")]
-	[Event("removeItem", type="flash.events.Event")]
+	[Event(name="addItem", type="flash.events.Event")]
+	[Event(name="removeItem", type="flash.events.Event")]
 	
 	public class ComboCheck extends ComboBox
 	{

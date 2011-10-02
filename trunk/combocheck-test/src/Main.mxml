@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:acm="com.acm.*"
+			   creationComplete="onCreationComplete()" viewSourceURL="srcview/index.html">
+	
+	<fx:Declarations>
+		<s:HTTPService id="requestItems"
+					   url="data.xml"
+					   method="GET" result="onResult(event)" resultFormat="object" useProxy="false"/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.acm.IComboCheck;
+			import com.acm.IComboCheckType;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.CollectionEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.components.supportClasses.DropDownListBase;
+			
+			[Bindable]
+			private var items1a:ArrayCollection;;
+			[Bindable]
+			private var items1b:ArrayCollection;
+			[Bindable]
+			private var items2a:ArrayCollection;
+			[Bindable]
+			private var items2b:ArrayCollection;
+			
+			private function onCreationComplete():void {
+				items1a = new ArrayCollection ();
+				items1b = new ArrayCollection ();
+				
+				for (var i:int=0;i<15;i++) {
+					var item1:Object = new Object();
+					if (i==0) {
+						item1.label = "SELECT ALL";
+						item1[ComboCheck.SELECT_ALL] = true;
+						item1.selected=true;
+					} else {
+						item1.label = "label cbc " + i;
+					}
+					item1.value = i;
+					items1a.addItem(item1);
+					
+					var item2:Object = new Object();
+					if (i==0) {
+						item2.label = "SELECT ALL";
+						item2[ComboCheck.SELECT_ALL] = true;
+						item2.selected=true;
+					} else {
+						item2.label = "label cbl " + i;
+					}
+					item2.value = i;
+					items1b.addItem(item2);
+				}
+				
+				showSelectedItems(combo1 as IComboCheck, result1);
+				showSelectedItems(combo3 as IComboCheck, result3);
+				requestItems.send();
+			}
+			
+			private function onResult(event:ResultEvent):void {
+				items2a = event.result.items.item;
+				combo2.dataProvider = items2a;
+				showSelectedItems(combo2 as IComboCheck, result2);
+
+				items2b = event.result.items.item;
+				combo4.dataProvider = items2b;
+				showSelectedItems(combo4 as IComboCheck, result4);
+			}
+			
+			private function showSelectedItems(combo:IComboCheck, result:RichText):void {
+				result.text = "";
+				for each (var item:Object in combo.selectedItems) {
+					result.text += item.label +" ";
+				}
+			}
+			
+			private function selectAll(combo:IComboCheck, result:RichText):void {
+				combo.selectAll();
+				showSelectedItems(combo, result);
+			}
+			
+			private function deselectAll(combo:IComboCheck, result:RichText):void {
+				combo.deselectAll();
+				showSelectedItems(combo, result);
+			}
+		]]>
+	</fx:Script>
+	
+	<s:Panel title="ComboCheck 1.6" width="100%" height="100%">
+		<s:layout>
+			<s:VerticalLayout paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10"/>
+		</s:layout>
+		
+		<s:HGroup width="100%" height="100%">
+			<s:VGroup width="100%" height="100%">
+				<s:Label text="(Superclass: ComboBox) Local data" fontWeight="bold"/>
+				<acm:ComboCheck width="100%" labelField="label" type="combobox"
+								selectAll="showSelectedItems(event.target as IComboCheck, result1)"
+								deselectAll="showSelectedItems(event.target as IComboCheck, result1)"
+								itemRemoved="showSelectedItems(event.target as IComboCheck, result1)"
+								itemAdded="showSelectedItems(event.target as IComboCheck, result1)"
+								id="combo1" dataProvider="{items1a}" />
+				<s:Rect height="10"/>
+				<s:Label text="Selected Items" fontWeight="bold"/>
+				<s:RichText id="result1" width="200"/>
+				<s:Label text="Selected Item" fontWeight="bold"/>
+				<s:RichText text="{combo1.selectedItem.label}"/>
+			</s:VGroup>
+			
+			<s:VGroup width="100%" height="100%">
+				<s:Label text="(Superclass: ComboBox) Remote data" fontWeight="bold"/>
+				<acm:ComboCheck width="100%" type="combobox"
+								selectAll="showSelectedItems(event.target as IComboCheck, result2)"
+								deselectAll="showSelectedItems(event.target as IComboCheck, result2)"
+								itemRemoved="showSelectedItems(event.target as IComboCheck, result2)"
+								itemAdded="showSelectedItems(event.target as IComboCheck, result2)"
+								id="combo2" dataProvider="{items2a}" />
+				<s:Rect height="10"/>
+				<s:Label text="Selected Items" fontWeight="bold"/>
+				<s:RichText id="result2" width="200"/>
+				<s:Label text="Selected Item" fontWeight="bold"/>
+				<s:RichText text="{combo2.selectedItem.label}"/>
+			</s:VGroup>
+		</s:HGroup>
+		
+		<s:HGroup width="100%" paddingBottom="30" horizontalAlign="center">
+			<s:Button label="Select All Local" click="selectAll(combo1, result1)"/>
+			<s:Button label="Deselect All Local" click="deselectAll(combo1, result1)"/>
+			<s:Rect width="100%"/>
+			<s:Button label="Select All Remote" click="selectAll(combo2, result2)"/>
+			<s:Button label="Deselect All Remote" click="deselectAll(combo2, result2)"/>
+		</s:HGroup>
+		
+		<s:HGroup width="100%" height="100%">
+			<s:VGroup width="100%" height="100%">
+				<s:Label text="(Superclass: DropDownList) Local data" fontWeight="bold"/>
+				<acm:ComboCheck width="100%" type="combolist"
+								selectAll="showSelectedItems(event.target as IComboCheck, result3)"
+								deselectAll="showSelectedItems(event.target as IComboCheck, result3)"
+								itemRemoved="showSelectedItems(event.target as IComboCheck, result3)"
+								itemAdded="showSelectedItems(event.target as IComboCheck, result3)"
+								id="combo3" dataProvider="{items1b}" />
+				<s:Rect height="10"/>
+				<s:Label text="Selected Items" fontWeight="bold"/>
+				<s:RichText id="result3" width="200"/>
+				<s:Label text="Selected Item" fontWeight="bold"/>
+				<s:RichText text="{combo3.selectedItem.label}"/>
+			</s:VGroup>
+			
+			<s:VGroup width="100%" height="100%">
+				<s:Label text="(Superclass: DropDownList) Remote data" fontWeight="bold"/>
+				<acm:ComboCheck width="100%" type="combolist"
+								id="combo4" dataProvider="{items2b}" 
+								selectAll="showSelectedItems(event.target as IComboCheck, result4)"
+								deselectAll="showSelectedItems(event.target as IComboCheck, result4)"
+								itemRemoved="showSelectedItems(event.target as IComboCheck, result4)"
+								itemAdded="showSelectedItems(event.target as IComboCheck, result4)"/>
+				<s:Rect height="10"/>
+				<s:Label text="Selected Items" fontWeight="bold"/>
+				<s:RichText id="result4" width="200"/>
+				<s:Label text="Selected Item" fontWeight="bold"/>
+				<s:RichText text="{combo4.selectedItem.label}"/>
+			</s:VGroup>
+		</s:HGroup>
+		
+		<s:HGroup width="100%" horizontalAlign="center">
+			<s:Button label="Select All Local" click="selectAll(combo3, result3)"/>
+			<s:Button label="Deselect All Local" click="deselectAll(combo3, result3)"/>
+			<s:Rect width="100%"/>
+			<s:Button label="Select All Remote" click="selectAll(combo4, result4)"/>
+			<s:Button label="Deselect All Remote" click="deselectAll(combo4, result4)"/>
+		</s:HGroup>
+	</s:Panel>
+</s:Application>

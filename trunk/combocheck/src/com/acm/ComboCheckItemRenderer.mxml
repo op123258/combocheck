@@ -3,11 +3,9 @@
 				xmlns:s="library://ns.adobe.com/flex/spark" 
 				xmlns:mx="library://ns.adobe.com/flex/mx" 
 				autoDrawBackground="true">
-	<!--
 	<s:layout>
-		<s:HorizontalLayout paddingBottom="2" paddingLeft="2" paddingRight="2" paddingTop="2" />
+		<s:HorizontalLayout paddingBottom="0" paddingLeft="2" paddingRight="2" paddingTop="0" />
 	</s:layout>
-	-->
 	
 	<fx:Script>
 		<![CDATA[
@@ -16,7 +14,7 @@
 			protected function onClick(event:MouseEvent):void {
 				var e:ItemClickEvent = new ItemClickEvent(ItemClickEvent.ITEM_CLICK, true);
 				e.item = data;
-				ComboCheck(owner).dispatchEvent(e);
+				owner.dispatchEvent(e);
 			}
 		]]>
 	</fx:Script>

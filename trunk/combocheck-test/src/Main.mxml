@@ -23,6 +23,8 @@
 			
 			import spark.components.supportClasses.DropDownListBase;
 			
+			public static const SELECT_ALL:String = "selectAll";
+			
 			[Bindable]
 			private var items1a:ArrayCollection;;
 			[Bindable]
@@ -40,7 +42,7 @@
 					var item1:Object = new Object();
 					if (i==0) {
 						item1.label = "SELECT ALL";
-						item1[ComboCheck.SELECT_ALL] = true;
+						item1[SELECT_ALL] = true;
 						item1.selected=true;
 					} else {
 						item1.label = "label cbc " + i;
@@ -51,7 +53,7 @@
 					var item2:Object = new Object();
 					if (i==0) {
 						item2.label = "SELECT ALL";
-						item2[ComboCheck.SELECT_ALL] = true;
+						item2[SELECT_ALL] = true;
 						item2.selected=true;
 					} else {
 						item2.label = "label cbl " + i;

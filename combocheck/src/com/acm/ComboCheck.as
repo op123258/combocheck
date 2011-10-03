@@ -1,6 +1,6 @@
 /*
 * ComboCheck
-* v1.6.00
+* v1.6.01
 * Arcadio Carballares Martín, 2011
 * http://www.arcadiocarballares.es
 * Creative Commons - http://creativecommons.org/licenses/by-sa/2.5/es/deed.en_GB
@@ -15,9 +15,14 @@ package com.acm
 	import mx.core.UIComponent;
 	import mx.events.CollectionEvent;
 	import mx.events.FlexEvent;
+	import mx.events.IndexChangedEvent;
 	
+	import spark.components.ComboBox;
 	import spark.components.supportClasses.DropDownListBase;
 	import spark.components.supportClasses.ListBase;
+	import spark.events.IndexChangeEvent;
+	
+	[Event(name="change", type="spark.events.IndexChangeEvent")]
 	
 	[Event(name="itemAdded", type="com.acm.ComboCheckEvent")]
 	[Event(name="itemRemoved", type="com.acm.ComboCheckEvent")]
@@ -28,7 +33,6 @@ package com.acm
 	
 	public class ComboCheck extends UIComponent implements IComboCheck
 	{
-		public static const SELECT_ALL:String = "selectAll";
 		private static const DEFAULT_HEIGHT:int = 23;
 		
 		private var _type:String;
@@ -70,6 +74,42 @@ package com.acm
 		}
 		public function get labelField ():String {
 			return _labelField;
+		}
+		
+		private var _labelToItemFunction:Function;
+		[Bindable]
+		public function set labelToItemFunction (value:Function):void {
+			_labelToItemFunction = value;
+			if (combo && type == 'combobox') {
+				ComboBox(combo).labelToItemFunction = value;
+			}
+		}
+		public function get labelToItemFunction ():Function {
+			return _labelToItemFunction;
+		}
+		
+		private var _labelFunction:Function;
+		[Bindable]
+		public function set labelFunction (value:Function):void {
+			_labelFunction = value;
+			if (combo) {
+				combo.labelFunction = value;
+			}
+		}
+		public function get labelFunction ():Function {
+			return _labelFunction;
+		}
+		
+		private var _selectedIndex:int;
+		[Bindable]
+		public function set selectedIndex (value:int):void {
+			_selectedIndex = value;
+			if (combo) {
+				combo.selectedIndex = value;
+			}
+		}
+		public function get selectedIndex ():int {
+			return _selectedIndex;
 		}
 		
 		private var _selectedItem:*;
@@ -115,6 +155,8 @@ package com.acm
 			UIComponent(combo).addEventListener(ComboCheckEvent.ITEM_ADDED, onItemAdded);
 			UIComponent(combo).addEventListener(ComboCheckEvent.SELECT_ALL, onSelectAll);
 			UIComponent(combo).addEventListener(ComboCheckEvent.DESELECT_ALL, onDeselectAll);
+			
+			UIComponent(combo).addEventListener(IndexChangeEvent.CHANGE, onChange);
 		}
 		
 		private function onItemSelected (event:ComboCheckEvent):void {
@@ -131,6 +173,10 @@ package com.acm
 		
 		private function onDeselectAll (event:ComboCheckEvent):void {
 			dispatchEvent(new ComboCheckEvent(ComboCheckEvent.DESELECT_ALL));
+		}
+		
+		private function onChange (event:IndexChangeEvent):void {
+			dispatchEvent(new IndexChangeEvent(IndexChangeEvent.CHANGE));
 		}
 		
 		private function onItemAdded (event:ComboCheckEvent):void {

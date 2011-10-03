@@ -29,6 +29,7 @@ package com.acm
 	
 	public class ComboCheckList extends DropDownList implements IComboCheckType
 	{
+		public static const SELECT_ALL:String = "selectAll";
 		private var selectedAllItems:ArrayCollection;
 		private var _selectedItems:Vector.<Object>;
 		override public function set selectedItems(value:Vector.<Object>):void {
@@ -65,7 +66,7 @@ package com.acm
 				removeEventListener(FlexEvent.UPDATE_COMPLETE, onUpdateComplete);
 				selectedAllItems = new ArrayCollection();
 				for each (var item:Object in dataProvider) {
-					if (item[ComboCheck.SELECT_ALL] == true) {
+					if (item[SELECT_ALL] == true) {
 						selectedAllItems.addItem(item);
 					}
 					
@@ -126,7 +127,7 @@ package com.acm
 			var evt:ComboCheckEvent;
 			
 			if (event.item.selected)  {
-				if (event.item[ComboCheck.SELECT_ALL] == true) {
+				if (event.item[SELECT_ALL] == true) {
 					selectAll();
 					dispatchEvent(new ComboCheckEvent(ComboCheckEvent.SELECT_ALL));
 				} else {
@@ -142,7 +143,7 @@ package com.acm
 					}
 				}
 			} else {
-				if (event.item[ComboCheck.SELECT_ALL]==true) {
+				if (event.item[SELECT_ALL]==true) {
 					deselectAll();
 					dispatchEvent(new ComboCheckEvent(ComboCheckEvent.DESELECT_ALL));
 				} else {
@@ -174,7 +175,7 @@ package com.acm
 			selectedItems = new Vector.<Object>();
 			for each (var item:* in dataProvider) {
 				item.selected = true;
-				if (item[ComboCheck.SELECT_ALL] != true) {
+				if (item[SELECT_ALL] != true) {
 					selectedItems.push(item);
 				}
 			}

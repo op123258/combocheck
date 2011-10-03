@@ -18,5 +18,13 @@
   </applications>
   <modules/>
   <buildCSSFiles/>
+  <publishSource>
+    <sourcePathIncludes>
+      <include path="[source path] src"/>
+    </sourcePathIncludes>
+    <sourceExcludes>
+      <exclude path="html-template"/>
+    </sourceExcludes>
+  </publishSource>
   <flashCatalyst validateFlashCatalystCompatibility="false"/>
 </actionScriptProperties>

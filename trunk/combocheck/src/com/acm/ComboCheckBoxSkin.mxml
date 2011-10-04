@@ -24,7 +24,7 @@ is defined by the ComboBoxTextInputSkin class.
 -->
 <s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" 
         xmlns:fb="http://ns.adobe.com/flashbuilder/2009" alpha.disabled=".5"> 
-	<fx:Metadata>[HostComponent("com.acm.ComboCheck")]</fx:Metadata>
+	<fx:Metadata>[HostComponent("com.acm.ComboCheckBox")]</fx:Metadata>
     
     <!-- host component -->
     <fx:Script fb:purpose="styling">
@@ -169,7 +169,7 @@ is defined by the ComboBoxTextInputSkin class.
             This includes borders, background colors, scrollers, and filters. 
             @copy spark.components.supportClasses.DropDownListBase#dropDown
         -->
-        <s:Group id="dropDown">
+        <s:Group id="dropDown" height="{hostComponent.dropDownHeight}">
             
             <!-- drop shadow -->
             <!--- @private -->

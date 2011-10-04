@@ -34,7 +34,7 @@
         /** 
          * @copy spark.skins.spark.ApplicationSkin#hostComponent
          */
-        [HostComponent("spark.components.DropDownList")]
+        [HostComponent("com.acm.ComboCheckList")]
     ]]>
     </fx:Metadata> 
 
@@ -111,7 +111,7 @@
               This includes borders, background colors, scrollers, and filters.
               @copy spark.components.supportClasses.DropDownListBase#dropDown
         -->
-        <s:Group id="dropDown">
+		<s:Group id="dropDown" height="{hostComponent.dropDownHeight}">
         
             <!--- @private -->
             <s:RectangularDropShadow id="dropShadow" blurX="20" blurY="20" alpha="0.45" distance="7" 

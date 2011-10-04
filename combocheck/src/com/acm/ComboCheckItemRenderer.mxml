@@ -16,10 +16,15 @@
 				e.item = data;
 				owner.dispatchEvent(e);
 			}
+			
+			override public function set data(value:Object):void {
+				renderer.width = owner.width - 21;
+				super.data = value;
+			}
 		]]>
 	</fx:Script>
 	
 	
-	<s:CheckBox id="renderer" selected="@{data.selected}" label="{label}" width="100%" height="100%"
+	<s:CheckBox id="renderer" selected="@{data.selected}" label="{label}" height="100%"
 				click="onClick(event)"/>
 </s:ItemRenderer>

@@ -104,7 +104,7 @@
 		<s:HGroup width="100%" height="100%">
 			<s:VGroup width="100%" height="100%">
 				<s:Label text="(Superclass: ComboBox) Local data" fontWeight="bold"/>
-				<acm:ComboCheck width="100%" labelField="label" type="combobox"
+				<acm:ComboCheck width="100%" labelField="label" type="combobox" rowCount="20"
 								selectAll="showSelectedItems(event.target as IComboCheck, result1)"
 								deselectAll="showSelectedItems(event.target as IComboCheck, result1)"
 								itemRemoved="showSelectedItems(event.target as IComboCheck, result1)"

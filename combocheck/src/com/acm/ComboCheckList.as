@@ -29,7 +29,20 @@ package com.acm
 	
 	public class ComboCheckList extends DropDownList implements IComboCheckType
 	{
-		public static const SELECT_ALL:String = "selectAll";
+		//private static const SELECT_ALL:String = "selectAll";
+		private static const ROW_HEIHGT:int = 18.0;
+		private static const GAP_HEIHGT:int = 3.0;
+		private static const DEFAULT_ROWCOUNT:int = 10;
+		
+		[Bindable]
+		public var dropDownHeight:Number;
+		[Bindable]
+		public var rowCount:int;
+		[Bindable]
+		public var selectAllLabelField:String;
+		[Bindable]
+		public var selectedLabelField:String;
+		
 		private var selectedAllItems:ArrayCollection;
 		private var _selectedItems:Vector.<Object>;
 		override public function set selectedItems(value:Vector.<Object>):void {
@@ -53,12 +66,19 @@ package com.acm
 			return super.selectedItem;
 		}
 		
+		
 		public function ComboCheckList()
 		{
 			super();
 			setStyle("skinClass", ComboCheckListSkin);
 			addEventListener(ItemClickEvent.ITEM_CLICK, onItemClick);
 			addEventListener(FlexEvent.UPDATE_COMPLETE, onUpdateComplete);
+			
+			// Initialize object
+			selectedItems = new Vector.<Object>();
+			rowCount = DEFAULT_ROWCOUNT;
+			selectAllLabelField = "selectAll";
+			selectedLabelField = "selected";
 		}
 		
 		private function onUpdateComplete(event:FlexEvent):void {
@@ -66,7 +86,7 @@ package com.acm
 				removeEventListener(FlexEvent.UPDATE_COMPLETE, onUpdateComplete);
 				selectedAllItems = new ArrayCollection();
 				for each (var item:Object in dataProvider) {
-					if (item[SELECT_ALL] == true) {
+					if (item.hasOwnProperty(selectAllLabelField) && item[selectAllLabelField] == true) {
 						selectedAllItems.addItem(item);
 					}
 					
@@ -78,18 +98,16 @@ package com.acm
 					selectAll();
 					dispatchEvent(new ComboCheckEvent(ComboCheckEvent.SELECT_ALL));
 				}
+				
+				// Redim dropdown menu
+				if (isNaN(dropDownHeight) || dropDownHeight == 0) {
+					if (rowCount > dataProvider.length) {
+						dropDownHeight = (dataProvider.length * ROW_HEIHGT) + GAP_HEIHGT;
+					} else {
+						dropDownHeight = (rowCount * ROW_HEIHGT) + GAP_HEIHGT;
+					}
+				}
 			}
-		}
-		
-		override public function get dataProvider():IList {
-			return super.dataProvider;
-		}
-		
-		override public function set dataProvider(value:IList):void {
-			super.dataProvider = value;
-			
-			// Initialize selected items
-			selectedItems = new Vector.<Object>();
 		}
 		
 		override protected function keyDownHandler(event:KeyboardEvent):void {
@@ -127,7 +145,7 @@ package com.acm
 			var evt:ComboCheckEvent;
 			
 			if (event.item.selected)  {
-				if (event.item[SELECT_ALL] == true) {
+				if (event.item.hasOwnProperty(selectAllLabelField) && event.item[selectAllLabelField] == true) {
 					selectAll();
 					dispatchEvent(new ComboCheckEvent(ComboCheckEvent.SELECT_ALL));
 				} else {
@@ -143,7 +161,7 @@ package com.acm
 					}
 				}
 			} else {
-				if (event.item[SELECT_ALL]==true) {
+				if (event.item.hasOwnProperty(selectAllLabelField) && event.item[selectAllLabelField]==true) {
 					deselectAll();
 					dispatchEvent(new ComboCheckEvent(ComboCheckEvent.DESELECT_ALL));
 				} else {
@@ -175,7 +193,7 @@ package com.acm
 			selectedItems = new Vector.<Object>();
 			for each (var item:* in dataProvider) {
 				item.selected = true;
-				if (item[SELECT_ALL] != true) {
+				if (item.hasOwnProperty(selectAllLabelField) && item[selectAllLabelField] != true) {
 					selectedItems.push(item);
 				}
 			}

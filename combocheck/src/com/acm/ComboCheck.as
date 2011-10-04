@@ -1,6 +1,6 @@
 /*
 * ComboCheck
-* v1.6.01
+* v1.6.02
 * Arcadio Carballares Martín, 2011
 * http://www.arcadiocarballares.es
 * Creative Commons - http://creativecommons.org/licenses/by-sa/2.5/es/deed.en_GB
@@ -8,18 +8,11 @@
 package com.acm
 {
 	import flash.display.DisplayObject;
-	import flash.events.Event;
 	
-	import mx.collections.ArrayCollection;
 	import mx.collections.IList;
 	import mx.core.UIComponent;
-	import mx.events.CollectionEvent;
-	import mx.events.FlexEvent;
-	import mx.events.IndexChangedEvent;
 	
 	import spark.components.ComboBox;
-	import spark.components.supportClasses.DropDownListBase;
-	import spark.components.supportClasses.ListBase;
 	import spark.events.IndexChangeEvent;
 	
 	[Event(name="change", type="spark.events.IndexChangeEvent")]
@@ -34,6 +27,8 @@ package com.acm
 	public class ComboCheck extends UIComponent implements IComboCheck
 	{
 		private static const DEFAULT_HEIGHT:int = 23;
+		private static const DEFAULT_WIDTH:int = 125;
+		private static const DEFAULT_TYPE:String = "combobox";
 		
 		private var _type:String;
 		[Bindable]
@@ -112,6 +107,18 @@ package com.acm
 			return _selectedIndex;
 		}
 		
+		private var _rowCount:int;
+		[Bindable]
+		public function set rowCount (value:int):void {
+			_rowCount = value;
+			if (combo) {
+				combo.rowCount = value;
+			}
+		}
+		public function get rowCount ():int {
+			return _rowCount;
+		}
+		
 		private var _selectedItem:*;
 		[Bindable ("itemSelected")]
 		public function set selectedItem(value:*):void {
@@ -127,13 +134,55 @@ package com.acm
 			_selectedItems = value;
 		}
 		public function get selectedItems ():Vector.<Object> {
-			return combo.getSelectedItems();
+			var result:Vector.<Object>;
+			if (combo) {
+				result = combo.getSelectedItems();
+			}
+			return result;
+		}
+		
+		private var _dropDownHeight:Number;
+		[Bindable]
+		public function set dropDownHeight (value:Number):void {
+			_dropDownHeight = value;
+			if (combo) {
+				combo.dropDownHeight = value;
+			}
+		}
+		public function get dropDownHeight ():Number {
+			return _dropDownHeight;
+		}
+		
+		private var _selectAllLabelField:String;
+		[Bindable]
+		public function set selectAllLabelField (value:String):void {
+			_selectAllLabelField = value;
+			if (combo) {
+				combo.selectAllLabelField = value;
+			}
+		}
+		public function get selectAllLabelField ():String {
+			return _selectAllLabelField;
+		}
+		
+		private var _selectedLabelField:String;
+		[Bindable]
+		public function set selectedLabelField (value:String):void {
+			_selectedLabelField = value;
+			if (combo) {
+				combo.selectedLabelField = value;
+			}
+		}
+		public function get selectedLabelField ():String {
+			return _selectedLabelField;
 		}
 		
 		public function ComboCheck()
 		{
 			super();
 			height = DEFAULT_HEIGHT;
+			width = DEFAULT_WIDTH;
+			type = DEFAULT_TYPE;
 		}
 		
 		private function createCombo():void {

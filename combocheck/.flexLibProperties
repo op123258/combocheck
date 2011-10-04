@@ -2,7 +2,6 @@
 <flexLibProperties includeAllClasses="false" useMultiPlatformConfig="false" version="3">
   <includeClasses>
     <classEntry path="com.acm.ComboCheck"/>
-    <classEntry path="com.acm.ComboCheckSkin"/>
     <classEntry path="com.acm.ComboCheckList"/>
     <classEntry path="com.acm.ComboCheckListSkin"/>
     <classEntry path="com.acm.IComboCheck"/>

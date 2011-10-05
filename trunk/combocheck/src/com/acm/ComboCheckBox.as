@@ -1,6 +1,6 @@
 /*
 * ComboCheck
-* v1.6.02
+* v1.6.03
 * Arcadio Carballares Martín, 2011
 * http://www.arcadiocarballares.es
 * Creative Commons - http://creativecommons.org/licenses/by-sa/2.5/es/deed.en_GB
@@ -202,7 +202,8 @@ package com.acm
 			selectedItems = new Vector.<Object>();
 			for each (var item:* in dataProvider) {
 				item.selected = true;
-				if (item.hasOwnProperty(selectAllLabelField) && item[selectAllLabelField] != true) {
+				if (item.hasOwnProperty(selectAllLabelField)) {
+				} else {
 					selectedItems.push(item);
 				}
 			}

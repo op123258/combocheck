@@ -10,17 +10,18 @@ package com.acm
 	{
 		function set dataProvider(value:IList):void;
 		function get dataProvider():IList;
+		
+		function get labelField():String;
 		function set labelField(value:String):void;
+		
 		function getSelectedItem():*;
 		function getSelectedItems():Vector.<Object>;
+		
 		function set selectedIndex(value:int):void;
 		function get selectedIndex():int;
 		
 		function get labelFunction ():Function;
 		function set labelFunction (value:Function):void;
-		
-		//function get dropDown():DisplayObject;
-		//function set dropDown(value:DropDownListBase):void;
 		
 		function get rowCount():int;
 		function set rowCount(value:int):void;

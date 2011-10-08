@@ -1,6 +1,6 @@
 /*
 * ComboCheck
-* v1.6.03
+* v1.6.04
 * Arcadio Carballares Martín, 2011
 * http://www.arcadiocarballares.es
 * Creative Commons - http://creativecommons.org/licenses/by-sa/2.5/es/deed.en_GB
@@ -21,6 +21,7 @@ package com.acm
 	
 	import spark.components.ComboBox;
 	import spark.components.supportClasses.DropDownListBase;
+	import spark.events.IndexChangeEvent;
 	
 	use namespace mx_internal;
 	
@@ -31,10 +32,8 @@ package com.acm
 	
 	public class ComboCheckBox extends ComboBox implements IComboCheckType
 	{
-		//private static const SELECT_ALL:String = "selectAll";
 		private static const ROW_HEIHGT:Number = 18.0;
 		private static const GAP_HEIHGT:int = 3.0;
-		private static const DEFAULT_ROWCOUNT:int = 10;
 		
 		[Bindable]
 		public var dropDownHeight:Number;
@@ -77,25 +76,24 @@ package com.acm
 			
 			// Initialize object
 			selectedItems = new Vector.<Object>();
-			rowCount = DEFAULT_ROWCOUNT;
-			selectAllLabelField = "selectAll";
-			selectedLabelField = "selected";
 		}
 		
 		private function onUpdateComplete(event:FlexEvent):void {
 			if (dataProvider != null) {
 				removeEventListener(FlexEvent.UPDATE_COMPLETE, onUpdateComplete);
 				selectedAllItems = new ArrayCollection();
+				var selectAllAtInit:Boolean = false;
 				for each (var item:Object in dataProvider) {
 					if (item.hasOwnProperty(selectAllLabelField) && item[selectAllLabelField] == true) {
 						selectedAllItems.addItem(item);
-					}
-					
-					if (item.selected) {
+						if  (item[selectedLabelField] == true) {
+							selectAllAtInit = true;
+						}
+					} else if (item.hasOwnProperty(selectedLabelField) && item[selectedLabelField] == true) {
 						selectedItems.push(item);
 					}
 				}
-				if (selectedAllItems.length > 0) {
+				if (selectAllAtInit) {
 					selectAll();
 					dispatchEvent(new ComboCheckEvent(ComboCheckEvent.SELECT_ALL));
 				}
@@ -118,7 +116,7 @@ package com.acm
 				var currentItem:Object = getItem(textInput.text);
 				
 				if (currentItem != null) {
-					currentItem.selected = !currentItem.selected;
+					currentItem[selectedLabelField] = !currentItem[selectedLabelField];
 					var e:ItemClickEvent = new ItemClickEvent(ItemClickEvent.ITEM_CLICK, true);
 					e.item = currentItem;
 					dispatchEvent(e);
@@ -126,7 +124,6 @@ package com.acm
 					// Update items
 					dataGroup.dataProvider.itemUpdated(currentItem,null,currentItem,e.item);
 				}
-				
 			}
 		}
 		
@@ -137,6 +134,7 @@ package com.acm
 			super.capture_keyDownHandler(event);
 		}
 		
+		// Don't delete
 		override protected function item_mouseDownHandler(event:MouseEvent):void {
 		}
 		
@@ -150,10 +148,9 @@ package com.acm
 		}
 		
 		private function onItemClick(event:ItemClickEvent):void {
-			trace("item checked!");
 			var evt:ComboCheckEvent;
 			
-			if (event.item.selected)  {
+			if (event.item[selectedLabelField])  {
 				if (event.item.hasOwnProperty(selectAllLabelField) && event.item[selectAllLabelField] == true) {
 					selectAll();
 					dispatchEvent(new ComboCheckEvent(ComboCheckEvent.SELECT_ALL));
@@ -169,8 +166,11 @@ package com.acm
 						updateItemsAll(true);
 					}
 				}
+				selectedItem = event.item;
+				selectedIndex = dataProvider.getItemIndex(event.item);
+				dispatchEvent(new IndexChangeEvent(IndexChangeEvent.CHANGE));
 			} else {
-				if (event.item.hasOwnProperty(selectAllLabelField) && event.item[selectAllLabelField]==true) {
+				if (event.item.hasOwnProperty(selectAllLabelField) && event.item[selectAllLabelField] == true) {
 					deselectAll();
 					dispatchEvent(new ComboCheckEvent(ComboCheckEvent.DESELECT_ALL));
 				} else {
@@ -184,16 +184,20 @@ package com.acm
 					evt.data = event.item;
 					dispatchEvent(evt);
 				}
+				selectedItem = null;
+				selectedIndex = -1;
+				dispatchEvent(new IndexChangeEvent(IndexChangeEvent.CHANGE));
 			}
 			
 			dispatchEvent(new ComboCheckEvent(ComboCheckEvent.ITEM_SELECTED));
-			dispatchEvent(new Event("valueCommit"));
 		}
+		
+		
 		
 		// Display 'allItem' selected or not selected
 		private function updateItemsAll (value:Boolean):void {
 			for each (var item:* in selectedAllItems) {
-				item.selected = value;
+				item[selectedLabelField] = value;
 				dataProvider.itemUpdated(item,'selected',!value,value);
 			}
 		}
@@ -201,9 +205,8 @@ package com.acm
 		public function selectAll():void {
 			selectedItems = new Vector.<Object>();
 			for each (var item:* in dataProvider) {
-				item.selected = true;
-				if (item.hasOwnProperty(selectAllLabelField)) {
-				} else {
+				item[selectedLabelField] = true;
+				if (!item.hasOwnProperty(selectAllLabelField)) {
 					selectedItems.push(item);
 				}
 			}
@@ -213,7 +216,7 @@ package com.acm
 		public function deselectAll():void {
 			selectedItems = new Vector.<Object>();
 			for each (var item:* in dataProvider) {
-				item.selected = false;
+				item[selectedLabelField] = false;
 			}
 			refreshDropDown();
 		}

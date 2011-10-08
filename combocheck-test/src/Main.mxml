@@ -41,46 +41,46 @@
 				for (var i:int=0;i<15;i++) {
 					var item1:Object = new Object();
 					if (i==0) {
-						item1.label = "SELECT ALL";
+						item1.name = "SELECT ALL";
 						item1[SELECT_ALL] = true;
 						item1.selected=true;
 					} else {
-						item1.label = "label cbc " + i;
+						item1.name = "label cbc " + i;
 					}
 					item1.value = i;
 					items1a.addItem(item1);
 					
 					var item2:Object = new Object();
 					if (i==0) {
-						item2.label = "SELECT ALL";
+						item2.name = "SELECT ALL";
 						item2[SELECT_ALL] = true;
-						item2.selected=true;
+						item2.selected=false;
 					} else {
-						item2.label = "label cbl " + i;
+						item2.name = "label cbl " + i;
 					}
 					item2.value = i;
 					items1b.addItem(item2);
 				}
 				
 				showSelectedItems(combo1 as IComboCheck, result1);
-				showSelectedItems(combo3 as IComboCheck, result3);
+				//showSelectedItems(combo3 as IComboCheck, result3);
 				requestItems.send();
 			}
 			
 			private function onResult(event:ResultEvent):void {
 				items2a = event.result.items.item;
-				combo2.dataProvider = items2a;
-				showSelectedItems(combo2 as IComboCheck, result2);
+				//combo2.dataProvider = items2a;
+				//showSelectedItems(combo2 as IComboCheck, result2);
 
 				items2b = event.result.items.item;
-				combo4.dataProvider = items2b;
-				showSelectedItems(combo4 as IComboCheck, result4);
+				//combo4.dataProvider = items2b;
+				//showSelectedItems(combo4 as IComboCheck, result4);
 			}
 			
 			private function showSelectedItems(combo:IComboCheck, result:RichText):void {
 				result.text = "";
 				for each (var item:Object in combo.selectedItems) {
-					result.text += item.label +" ";
+					result.text += item[combo.labelField] +" ";
 				}
 			}
 			
@@ -104,7 +104,8 @@
 		<s:HGroup width="100%" height="100%">
 			<s:VGroup width="100%" height="100%">
 				<s:Label text="(Superclass: ComboBox) Local data" fontWeight="bold"/>
-				<acm:ComboCheck width="100%" labelField="label" type="combobox" rowCount="20"
+				<acm:ComboCheck width="100%" type="combobox" rowCount="20"
+								labelField="name"
 								selectAll="showSelectedItems(event.target as IComboCheck, result1)"
 								deselectAll="showSelectedItems(event.target as IComboCheck, result1)"
 								itemRemoved="showSelectedItems(event.target as IComboCheck, result1)"
@@ -114,9 +115,8 @@
 				<s:Label text="Selected Items" fontWeight="bold"/>
 				<s:RichText id="result1" width="200"/>
 				<s:Label text="Selected Item" fontWeight="bold"/>
-				<s:RichText text="{combo1.selectedItem.label}"/>
+				<s:RichText text="{combo1.selectedItem.name}"/>
 			</s:VGroup>
-			
 			<s:VGroup width="100%" height="100%">
 				<s:Label text="(Superclass: ComboBox) Remote data" fontWeight="bold"/>
 				<acm:ComboCheck width="100%" type="combobox"
@@ -129,10 +129,10 @@
 				<s:Label text="Selected Items" fontWeight="bold"/>
 				<s:RichText id="result2" width="200"/>
 				<s:Label text="Selected Item" fontWeight="bold"/>
-				<s:RichText text="{combo2.selectedItem.label}"/>
+				<s:RichText text="{combo2.selectedItem.name}"/>
 			</s:VGroup>
 		</s:HGroup>
-		
+
 		<s:HGroup width="100%" paddingBottom="30" horizontalAlign="center">
 			<s:Button label="Select All Local" click="selectAll(combo1, result1)"/>
 			<s:Button label="Deselect All Local" click="deselectAll(combo1, result1)"/>
@@ -144,7 +144,8 @@
 		<s:HGroup width="100%" height="100%">
 			<s:VGroup width="100%" height="100%">
 				<s:Label text="(Superclass: DropDownList) Local data" fontWeight="bold"/>
-				<acm:ComboCheck width="100%" type="combolist"
+				<acm:ComboCheck width="100%" type="combolist" 
+								labelField="name" rowCount="10"
 								selectAll="showSelectedItems(event.target as IComboCheck, result3)"
 								deselectAll="showSelectedItems(event.target as IComboCheck, result3)"
 								itemRemoved="showSelectedItems(event.target as IComboCheck, result3)"
@@ -154,7 +155,7 @@
 				<s:Label text="Selected Items" fontWeight="bold"/>
 				<s:RichText id="result3" width="200"/>
 				<s:Label text="Selected Item" fontWeight="bold"/>
-				<s:RichText text="{combo3.selectedItem.label}"/>
+				<s:RichText text="{combo3.selectedItem.name}"/>
 			</s:VGroup>
 			
 			<s:VGroup width="100%" height="100%">
@@ -169,7 +170,7 @@
 				<s:Label text="Selected Items" fontWeight="bold"/>
 				<s:RichText id="result4" width="200"/>
 				<s:Label text="Selected Item" fontWeight="bold"/>
-				<s:RichText text="{combo4.selectedItem.label}"/>
+				<s:RichText text="{combo4.selectedItem.name}"/>
 			</s:VGroup>
 		</s:HGroup>
 		

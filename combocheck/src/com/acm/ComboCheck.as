@@ -1,6 +1,6 @@
 /*
 * ComboCheck
-* v1.6.03
+* v1.6.04
 * Arcadio Carballares Martín, 2011
 * http://www.arcadiocarballares.es
 * Creative Commons - http://creativecommons.org/licenses/by-sa/2.5/es/deed.en_GB
@@ -29,15 +29,17 @@ package com.acm
 		private static const DEFAULT_HEIGHT:int = 23;
 		private static const DEFAULT_WIDTH:int = 125;
 		private static const DEFAULT_TYPE:String = "combobox";
+		private static const DEFAULT_LABEL:String = "label";
+		private static const DEFAULT_ROWCOUNT:int = 10;
+		private static const DEFAULT_SELECT_ALL:String = "selectAll";
+		private static const DEFAULT_SELECTED:String = "selected";
 		
 		private var _type:String;
 		[Bindable]
 		[Inspectable(defaultValue="combobox", enumeration="combobox,combolist")] 
 		public function set type (value:String):void {
 			_type = value;
-			if (value != null) {
-				createCombo();
-			}
+			createCombo();
 		}
 		public function get type ():String {
 			return _type;
@@ -46,9 +48,7 @@ package com.acm
 		private var _dataProvider:IList;
 		public function set dataProvider(value:IList):void {
 			_dataProvider = value;
-			if (value != null && combo) {
-				combo.dataProvider = value;
-			}
+			combo.dataProvider = value;
 		}
 		public function get dataProvider():IList {
 			return _dataProvider as IList;
@@ -63,9 +63,7 @@ package com.acm
 		[Bindable]
 		public function set labelField (value:String):void {
 			_labelField = value;
-			if (combo) {
-				combo.labelField = value;
-			}
+			combo.labelField = value;
 		}
 		public function get labelField ():String {
 			return _labelField;
@@ -75,7 +73,7 @@ package com.acm
 		[Bindable]
 		public function set labelToItemFunction (value:Function):void {
 			_labelToItemFunction = value;
-			if (combo && type == 'combobox') {
+			if (type == 'combobox') {
 				ComboBox(combo).labelToItemFunction = value;
 			}
 		}
@@ -87,9 +85,7 @@ package com.acm
 		[Bindable]
 		public function set labelFunction (value:Function):void {
 			_labelFunction = value;
-			if (combo) {
-				combo.labelFunction = value;
-			}
+			combo.labelFunction = value;
 		}
 		public function get labelFunction ():Function {
 			return _labelFunction;
@@ -99,9 +95,7 @@ package com.acm
 		[Bindable]
 		public function set selectedIndex (value:int):void {
 			_selectedIndex = value;
-			if (combo) {
-				combo.selectedIndex = value;
-			}
+			combo.selectedIndex = value;
 		}
 		public function get selectedIndex ():int {
 			return _selectedIndex;
@@ -111,9 +105,7 @@ package com.acm
 		[Bindable]
 		public function set rowCount (value:int):void {
 			_rowCount = value;
-			if (combo) {
-				combo.rowCount = value;
-			}
+			combo.rowCount = value;
 		}
 		public function get rowCount ():int {
 			return _rowCount;
@@ -134,20 +126,14 @@ package com.acm
 			_selectedItems = value;
 		}
 		public function get selectedItems ():Vector.<Object> {
-			var result:Vector.<Object>;
-			if (combo) {
-				result = combo.getSelectedItems();
-			}
-			return result;
+			return combo.getSelectedItems();
 		}
 		
 		private var _dropDownHeight:Number;
 		[Bindable]
 		public function set dropDownHeight (value:Number):void {
 			_dropDownHeight = value;
-			if (combo) {
-				combo.dropDownHeight = value;
-			}
+			combo.dropDownHeight = value;
 		}
 		public function get dropDownHeight ():Number {
 			return _dropDownHeight;
@@ -157,9 +143,7 @@ package com.acm
 		[Bindable]
 		public function set selectAllLabelField (value:String):void {
 			_selectAllLabelField = value;
-			if (combo) {
-				combo.selectAllLabelField = value;
-			}
+			combo.selectAllLabelField = value;
 		}
 		public function get selectAllLabelField ():String {
 			return _selectAllLabelField;
@@ -169,9 +153,7 @@ package com.acm
 		[Bindable]
 		public function set selectedLabelField (value:String):void {
 			_selectedLabelField = value;
-			if (combo) {
-				combo.selectedLabelField = value;
-			}
+			combo.selectedLabelField = value;
 		}
 		public function get selectedLabelField ():String {
 			return _selectedLabelField;
@@ -180,9 +162,15 @@ package com.acm
 		public function ComboCheck()
 		{
 			super();
+			
+			// Initialize default properties
 			height = DEFAULT_HEIGHT;
 			width = DEFAULT_WIDTH;
 			type = DEFAULT_TYPE;
+			labelField = DEFAULT_LABEL;;
+			rowCount = DEFAULT_ROWCOUNT;
+			selectAllLabelField = DEFAULT_SELECT_ALL;
+			selectedLabelField = DEFAULT_SELECTED;
 		}
 		
 		private function createCombo():void {
@@ -206,6 +194,11 @@ package com.acm
 			UIComponent(combo).addEventListener(ComboCheckEvent.DESELECT_ALL, onDeselectAll);
 			
 			UIComponent(combo).addEventListener(IndexChangeEvent.CHANGE, onChange);
+			
+			// Init combo values
+			combo.selectedLabelField = selectedLabelField;
+			combo.selectAllLabelField = selectAllLabelField;
+			combo.rowCount = rowCount;
 		}
 		
 		private function onItemSelected (event:ComboCheckEvent):void {
@@ -246,9 +239,7 @@ package com.acm
 		
 		override protected function createChildren():void {
 			super.createChildren();
-			if (combo) {
-				addChild(combo as DisplayObject)
-			}
+			addChild(combo as DisplayObject)
 		}
 		
 		override protected function measure():void {
@@ -257,9 +248,7 @@ package com.acm
 		
 		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
-			if (combo) {
-				UIComponent(combo).setActualSize(width, height);
-			}
+			UIComponent(combo).setActualSize(width, height);
 		}
 		
 		public function selectAll():void {

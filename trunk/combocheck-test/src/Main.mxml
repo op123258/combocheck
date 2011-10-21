@@ -138,12 +138,12 @@
 		</s:HGroup>
 
 		<s:HGroup width="100%" paddingBottom="30" horizontalAlign="center">
-			<s:Button label="Select All Local" click="selectAll(combo1, result1)"/>
-			<s:Button label="Deselect All Local" click="deselectAll(combo1, result1)"/>
+			<s:Button label="Select All" click="selectAll(combo1, result1)"/>
+			<s:Button label="Deselect All" click="deselectAll(combo1, result1)"/>
 			<s:Button label="Change text" click="changeText (combo1, 'my text 1')"/>
 			<s:Rect width="100%"/>
-			<s:Button label="Select All Remote" click="selectAll(combo2, result2)"/>
-			<s:Button label="Deselect All Remote" click="deselectAll(combo2, result2)"/>
+			<s:Button label="Select All" click="selectAll(combo2, result2)"/>
+			<s:Button label="Deselect All" click="deselectAll(combo2, result2)"/>
 			<s:Button label="Change text" click="changeText (combo2, 'my text 2')"/>
 		</s:HGroup>
 		
@@ -181,12 +181,12 @@
 		</s:HGroup>
 		
 		<s:HGroup width="100%" horizontalAlign="center">
-			<s:Button label="Select All Local" click="selectAll(combo3, result3)"/>
-			<s:Button label="Deselect All Local" click="deselectAll(combo3, result3)"/>
+			<s:Button label="Select All" click="selectAll(combo3, result3)"/>
+			<s:Button label="Deselect All" click="deselectAll(combo3, result3)"/>
 			<s:Button label="Change text" click="changeText (combo3, 'my text 3')"/>
 			<s:Rect width="100%"/>
-			<s:Button label="Select All Remote" click="selectAll(combo4, result4)"/>
-			<s:Button label="Deselect All Remote" click="deselectAll(combo4, result4)"/>
+			<s:Button label="Select All" click="selectAll(combo4, result4)"/>
+			<s:Button label="Deselect All" click="deselectAll(combo4, result4)"/>
 			<s:Button label="Change text" click="changeText (combo4, 'my text 4')"/>
 		</s:HGroup>
 	</s:Panel>

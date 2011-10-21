@@ -1,6 +1,6 @@
 /*
 * ComboCheck
-* v1.6.04
+* v1.6.05
 * Arcadio Carballares Martín, 2011
 * http://www.arcadiocarballares.es
 * Creative Commons - http://creativecommons.org/licenses/by-sa/2.5/es/deed.en_GB
@@ -13,6 +13,7 @@ package com.acm
 	import mx.core.UIComponent;
 	
 	import spark.components.ComboBox;
+	import spark.components.DropDownList;
 	import spark.events.IndexChangeEvent;
 	
 	[Event(name="change", type="spark.events.IndexChangeEvent")]
@@ -157,6 +158,20 @@ package com.acm
 		}
 		public function get selectedLabelField ():String {
 			return _selectedLabelField;
+		}
+		
+		public function setLabel(value:String):void {
+			combo.setLabel(value);
+		}
+		
+		private var _prompt:String;
+		[Bindable]
+		public function set prompt (value:String):void {
+			_prompt = value;
+			combo.prompt = value;
+		}
+		public function get prompt ():String {
+			return _prompt;
 		}
 		
 		public function ComboCheck()

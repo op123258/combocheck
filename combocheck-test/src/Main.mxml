@@ -93,6 +93,10 @@
 				combo.deselectAll();
 				showSelectedItems(combo, result);
 			}
+			
+			private function changeText(combo:IComboCheck, text:String):void {
+				combo.setLabel(text);
+			}
 		]]>
 	</fx:Script>
 	
@@ -105,7 +109,7 @@
 			<s:VGroup width="100%" height="100%">
 				<s:Label text="(Superclass: ComboBox) Local data" fontWeight="bold"/>
 				<acm:ComboCheck width="100%" type="combobox" rowCount="20"
-								labelField="name"
+								labelField="name" prompt="Select combocheck..."
 								selectAll="showSelectedItems(event.target as IComboCheck, result1)"
 								deselectAll="showSelectedItems(event.target as IComboCheck, result1)"
 								itemRemoved="showSelectedItems(event.target as IComboCheck, result1)"
@@ -119,7 +123,7 @@
 			</s:VGroup>
 			<s:VGroup width="100%" height="100%">
 				<s:Label text="(Superclass: ComboBox) Remote data" fontWeight="bold"/>
-				<acm:ComboCheck width="100%" type="combobox"
+				<acm:ComboCheck width="100%" type="combobox" prompt="Select combocheck..."
 								selectAll="showSelectedItems(event.target as IComboCheck, result2)"
 								deselectAll="showSelectedItems(event.target as IComboCheck, result2)"
 								itemRemoved="showSelectedItems(event.target as IComboCheck, result2)"
@@ -136,16 +140,18 @@
 		<s:HGroup width="100%" paddingBottom="30" horizontalAlign="center">
 			<s:Button label="Select All Local" click="selectAll(combo1, result1)"/>
 			<s:Button label="Deselect All Local" click="deselectAll(combo1, result1)"/>
+			<s:Button label="Change text" click="changeText (combo1, 'my text 1')"/>
 			<s:Rect width="100%"/>
 			<s:Button label="Select All Remote" click="selectAll(combo2, result2)"/>
 			<s:Button label="Deselect All Remote" click="deselectAll(combo2, result2)"/>
+			<s:Button label="Change text" click="changeText (combo2, 'my text 2')"/>
 		</s:HGroup>
 		
 		<s:HGroup width="100%" height="100%">
 			<s:VGroup width="100%" height="100%">
 				<s:Label text="(Superclass: DropDownList) Local data" fontWeight="bold"/>
 				<acm:ComboCheck width="100%" type="combolist" 
-								labelField="name" rowCount="10"
+								labelField="name" rowCount="10" prompt="Select combocheck..."
 								selectAll="showSelectedItems(event.target as IComboCheck, result3)"
 								deselectAll="showSelectedItems(event.target as IComboCheck, result3)"
 								itemRemoved="showSelectedItems(event.target as IComboCheck, result3)"
@@ -161,7 +167,7 @@
 			<s:VGroup width="100%" height="100%">
 				<s:Label text="(Superclass: DropDownList) Remote data" fontWeight="bold"/>
 				<acm:ComboCheck width="100%" type="combolist"
-								id="combo4" dataProvider="{items2b}" 
+								id="combo4" dataProvider="{items2b}" prompt="Select combocheck..."
 								selectAll="showSelectedItems(event.target as IComboCheck, result4)"
 								deselectAll="showSelectedItems(event.target as IComboCheck, result4)"
 								itemRemoved="showSelectedItems(event.target as IComboCheck, result4)"
@@ -177,9 +183,11 @@
 		<s:HGroup width="100%" horizontalAlign="center">
 			<s:Button label="Select All Local" click="selectAll(combo3, result3)"/>
 			<s:Button label="Deselect All Local" click="deselectAll(combo3, result3)"/>
+			<s:Button label="Change text" click="changeText (combo3, 'my text 3')"/>
 			<s:Rect width="100%"/>
 			<s:Button label="Select All Remote" click="selectAll(combo4, result4)"/>
 			<s:Button label="Deselect All Remote" click="deselectAll(combo4, result4)"/>
+			<s:Button label="Change text" click="changeText (combo4, 'my text 4')"/>
 		</s:HGroup>
 	</s:Panel>
 </s:Application>

@@ -42,6 +42,15 @@ package com.acm
 		function get selectedLabelField():String;
 		function set selectedLabelField(value:String):void;
 		
+		/*
+		function get label():String;
+		function set label(value:String):void;
+		*/
+		function setLabel(value:String):void;
+		
+		function get prompt():String;
+		function set prompt(value:String):void;
+		
 		function selectAll():void;
 		function deselectAll():void;
 	}

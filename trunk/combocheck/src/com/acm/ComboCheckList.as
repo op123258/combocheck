@@ -67,6 +67,9 @@ package com.acm
 			return super.selectedItem;
 		}
 		
+		public function setLabel(value:String):void {
+			labelDisplay.text = value;
+		}
 		
 		public function ComboCheckList()
 		{

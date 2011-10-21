@@ -1,6 +1,6 @@
 /*
 * ComboCheck
-* v1.6.04
+* v1.6.05
 * Arcadio Carballares Martín, 2011
 * http://www.arcadiocarballares.es
 * Creative Commons - http://creativecommons.org/licenses/by-sa/2.5/es/deed.en_GB
@@ -65,6 +65,10 @@ package com.acm
 		
 		public function getSelectedItem():* {
 			return super.selectedItem;
+		}
+		
+		public function setLabel(value:String):void {
+			textInput.text = value;
 		}
 		
 		public function ComboCheckBox()

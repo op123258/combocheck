@@ -210,7 +210,7 @@ package com.acm
 			selectedItems = new Vector.<Object>();
 			for each (var item:* in dataProvider) {
 				item[selectedLabelField] = true;
-				if (!item.hasOwnProperty(selectAllLabelField)) {
+				if (!item.hasOwnProperty(selectAllLabelField) || item[selectAllLabelField] == false) {
 					selectedItems.push(item);
 				}
 			}

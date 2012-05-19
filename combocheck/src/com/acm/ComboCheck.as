@@ -1,6 +1,6 @@
 /*
 * ComboCheck
-* v1.6.05
+* v1.6.06
 * Arcadio Carballares Martín, 2011
 * http://www.arcadiocarballares.es
 * Creative Commons - http://creativecommons.org/licenses/by-sa/2.5/es/deed.en_GB

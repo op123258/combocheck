@@ -1,6 +1,6 @@
 /*
 * ComboCheck
-* v1.2.6
+* v1.2.7
 * Arcadio Carballares Martín, 2009
 * http://www.carballares.es/arcadio
 */
@@ -63,7 +63,6 @@ package com.arcadiocarballares {
 		
 		override protected function commitProperties():void {
 			super.commitProperties();
-			
 			var render:ClassFactory = new ClassFactory(ComboCheckItemRenderer);
 			super.itemRenderer=render;
 			var myDropDownFactory:ClassFactory = new ClassFactory(ComboCheckDropDownFactory);
@@ -139,7 +138,7 @@ package com.arcadiocarballares {
 		
 		private function selecCheckboxAll(value:Boolean):void {
 			var item:ComboCheckItemRenderer;
-			if (itemAllPosition!=ITEM_ALL_POSITION_DEFAULT) {
+			if (item && itemAllPosition!=ITEM_ALL_POSITION_DEFAULT) {
 				item=ComboCheckItemRenderer(ListBase(dropdown).indexToItemRenderer(itemAllPosition));
 			
 				if (value) {

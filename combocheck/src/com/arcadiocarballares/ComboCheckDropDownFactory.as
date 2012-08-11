@@ -44,6 +44,5 @@ package com.arcadiocarballares {
 			myComboCheckEvent.obj=ComboCheckEvent(event).obj;
 			owner.dispatchEvent(myComboCheckEvent);
 		}
-		
 	}
 }

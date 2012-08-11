@@ -81,7 +81,7 @@
         ]]>
     </mx:Script>
     
-    <mx:HTTPService id="requestItems" url="http://carballares.es/arcadio/wp-content/uploads/2010/04/ComboCheck_1_2/data.xml" 
+    <mx:HTTPService id="requestItems" url="http://arcadiocarballares.es/wp-content/uploads/2011/10/ComboCheck_1_6_0/data.xml" 
     	method="GET" result="onResult(event)" resultFormat="object" useProxy="false"/>
     
     <mx:Panel title="ComboCheck" height="100%" width="100%" minHeight="250">

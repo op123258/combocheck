@@ -14,9 +14,7 @@
   <modules/>
   <buildCSSFiles/>
   <publishSource>
-    <sourcePathIncludes>
-      <include path="[source path] src"/>
-    </sourcePathIncludes>
+    <sourcePathIncludes/>
     <sourceExcludes>
       <exclude path="html-template"/>
     </sourceExcludes>

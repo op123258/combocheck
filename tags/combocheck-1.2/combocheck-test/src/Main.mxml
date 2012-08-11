@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
-	creationComplete="onCreationComplete()" xmlns:arcadiocarballares="com.arcadiocarballares.*" viewSourceURL="srcview/index.html">
+				xmlns:arcadiocarballares="com.arcadiocarballares.*"
+				creationComplete="onCreationComplete()">
 
     <mx:Script>
         <![CDATA[

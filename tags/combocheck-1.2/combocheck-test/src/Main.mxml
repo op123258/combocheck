@@ -18,7 +18,7 @@
             	{label:'Select All', value:-1},
 				{label:'label 0', value:0, tooltip:'ComboCheck tooltip!'},
 				{label:'label 1', value:1, assigned:true},
-            	{label:'label 2', value:2},
+            	{label:'label 2', value:2, assigned:true},
             	{label:'label 3', value:3},
 				{label:'label 4', value:4},
             	{label:'label 5', value:5},

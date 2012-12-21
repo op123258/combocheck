@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>combocheck-test</name>
+	<name>combocheck-1.5-test</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -15,4 +15,11 @@
 		<nature>com.adobe.flexbuilder.project.flexnature</nature>
 		<nature>com.adobe.flexbuilder.project.actionscriptnature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>[source path] src</name>
+			<type>2</type>
+			<locationURI>DROPBOX_AQUA/Proyectos/Combocheck/combocheck-1.5/src</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>

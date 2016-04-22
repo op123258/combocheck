@@ -1,0 +1,1 @@
+ComboCheck is a combobox with flex CheckBox as itemrenderer to manage data at multiple ways.
